@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QWidget
 
 from .sovImageProcessPanelWidget import ImageProcessPanelWidget
 from .sovLungCTAPanelWidget import LungCTAPanelWidget
+from .sovBrainSegmentationPanelWidget import BrainSegmentationPanelWidget
 from .sovOtsuPanelWidget import OtsuPanelWidget
 from .sovUtils import time_and_log
 from .ui_sovNewTaskPanelWidget import Ui_NewTaskPanelWidget
@@ -90,3 +91,23 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
                 indx, self.gui.otsuPanel, 'Otsu Threshold'
             )
             self.gui.tabWidget.setCurrentWidget(self.gui.otsuPanel)
+
+    @time_and_log
+    def add_brain_segmentation_panel(self):
+        """Add the Brain Segmeentation panel to the GUI tab widget if it is not already added.
+
+        If the Brain Segmentation panel is not already created, it creates a new instance of BrainSegmentationPanelWidget and adds it to the tab widget.
+        If the Brain Segmentation panel is already added, it sets the current widget to the Lung CTA panel.
+
+        Args:
+            self (object): The instance of the class.
+        """
+
+        if self.gui.BrainSegmentationPanel is None:
+            self.gui.BrainSegmentationPanel = BrainSegmentationPanelWidget(self.gui, self.state)
+        if self.gui.tabWidget.indexOf(self.gui.BrainSegmentationPanel) == -1:
+            indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
+            self.gui.tabWidget.insertTab(
+                indx, self.gui.BrainSegmentationPanel, 'Brain Segmentation'
+            )
+            self.gui.tabWidget.setCurrentWidget(self.gui.BrainSegmentationPanel)

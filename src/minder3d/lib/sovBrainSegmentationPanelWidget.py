@@ -3,9 +3,11 @@ from PySide6.QtWidgets import QMessageBox, QWidget
 from .sovBrainSegmentationLogic import BrainSegmentationLogic
 from .sovUtils import add_objects_in_mask_image_to_scene, time_and_log
 from .ui_sovBrainSegmentationPanelWidget import Ui_BrainSegmentationPanelWidget
+from .sovLungCTALogic import LungCTALogic
+from .ui_sovLungCTAPanelWidget import Ui_LungCTAPanelWidget
 
 
-class LungCTAPanelWidget(QWidget, Ui_BrainSegmentationPanelWidget):
+class BrainSegmentationPanelWidget(QWidget, Ui_BrainSegmentationPanelWidget):
     def __init__(self, gui, state, parent=None):
         """Initialize the LungCTA application.
 
@@ -20,7 +22,7 @@ class LungCTAPanelWidget(QWidget, Ui_BrainSegmentationPanelWidget):
 
         self.gui = gui
         self.state = state
-        self.logic = BrainSegmentationLogic()
+        self.logic = LungCTALogic()
 
         self.ai_first_run = True
 
