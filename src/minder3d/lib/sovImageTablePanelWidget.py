@@ -7,6 +7,7 @@ from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import (
     QHeaderView,
+    QInputDialog,
     QStyle,
     QTableWidget,
     QTableWidgetItem,
@@ -14,6 +15,7 @@ from PySide6.QtWidgets import (
 )
 
 from .sovImageTableSettings import ImageTableSettings
+from .sovImportExportPanelWidget import ImportExportPanelWidget
 from .sovUtils import time_and_log
 from .ui_sovImageTablePanelWidget import Ui_ImageTablePanelWidget
 
@@ -56,6 +58,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             ]
         )
         self.col_filetype = 2
+        self.col_label = 4
         self.col_filename = 7
         self.imageTableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         self.imageTableWidget.setSelectionBehavior(QTableWidget.SelectRows)
@@ -77,9 +80,11 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
 
         self.imageTableLoadButton.clicked.connect(self.load_selected)
         self.imageTableUnloadButton.clicked.connect(self.unload_selected)
-        self.imageTableRenameButton.clicked.connect(self.rename_selected)
+        self.imageTableRelabelButton.clicked.connect(self.relabel_selected)
         self.imageTableRemoveButton.clicked.connect(self.remove_selected)
-        self.imageTableRemoveAllButton.clicked.connect(self.remove_all)
+        self.imageTableImportExportButton.clicked.connect(
+            self.add_import_export_panel
+        )
         self.imageTableExpandButton.clicked.connect(self.expand_table)
 
         self.enlarged_table = None
@@ -87,29 +92,54 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         self.fill_table()
 
     @time_and_log
+    def add_import_export_panel(self):
+        """Add an image processing panel to the GUI if it does not already exist.
+
+        If the image processing panel does not exist, it creates a new ImageProcessPanelWidget and adds it to the tab widget.
+        If the image processing panel already exists, it sets the current widget to the existing panel.
+
+        Args:
+            self (object): The current instance of the class.
+        """
+        if self.gui.importExportPanel is None:
+            self.gui.importExportPanel = ImportExportPanelWidget(
+                self.gui, self.state
+            )
+        if self.gui.tabWidget.indexOf(self.gui.importExportPanel) == -1:
+            indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
+            self.gui.tabWidget.insertTab(
+                indx, self.gui.importExportPanel, 'Import/Save/Export'
+            )
+            self.gui.tabWidget.setCurrentWidget(self.gui.importExportPanel)
+
+    @time_and_log
     def unload_selected(self):
+        self.selected.sort(reverse=True)
         for row in self.selected:
             if row < len(self.state.image_filename):
                 self.gui.unload_image(row, False)
             elif row == len(self.state.image_filename):
-                self.gui.unload_scene()
+                self.gui.unload_scene(False)
         if len(self.selected) > 0:
             self.selected = []
             self.fill_table()
 
     @time_and_log
     def remove_selected(self):
+        self.selected.sort(reverse=True)
         for row in self.selected:
             if row < len(self.state.image_filename):
+                fname = self.state.image_filename[row]
                 self.gui.unload_image(row, False)
-                self.settings.remove_data(self.state.image_filename[row])
+                self.settings.remove_data(fname)
             elif (
                 row == len(self.state.image_filename)
                 and self.state.scene_filename
-                != self.imageTableWidget.item(row, self.col_filename).text()
+                == self.imageTableWidget.item(row, self.col_filename).text()
             ):
+                fname = self.state.scene_filename
                 self.gui.unload_scene()
-                self.settings.remove_data(self.state.image_filename[row])
+                self.settings.remove_data(fname)
             else:
                 self.settings.remove_data(
                     self.imageTableWidget.item(row, self.col_filename).text()
@@ -117,19 +147,6 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         if len(self.selected) > 0:
             self.selected = []
             self.fill_table()
-
-    @time_and_log
-    def remove_all(self):
-        num_images = len(self.state.image_filename)
-        for row in range(self.imageTableWidget.rowCount()):
-            if row < num_images:
-                self.gui.unload_image(row, False)
-            self.settings.remove_data(
-                self.imageTableWidget.item(row, self.col_filename).text()
-            )
-        self.selected = []
-        self.settings.clear_data()
-        self.fill_table()
 
     @time_and_log
     def close_expanded_table(self):
@@ -197,6 +214,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 row_num, col_num, QTableWidgetItem(self.selected_icon, '')
             )
         else:
+            print('ERROR: Can only redraw rows for images that are loaded.')
             self.imageTableWidget.setItem(
                 row_num, col_num, QTableWidgetItem('')
             )
@@ -214,7 +232,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         self.imageTableWidget.setItem(
             row_num,
             col_num,
-            QTableWidgetItem(QIcon(self.state.image_label[img_num]), ''),
+            QTableWidgetItem(str(self.state.image_label[img_num])),
         )
         col_num += 1
         size_str = [
@@ -251,18 +269,9 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 row_num, col_num, QTableWidgetItem('')
             )
         col_num += 1
-        if (
-            self.imageTableWidget.item(row_num, 3) is not None
-            and self.imageTableWidget.item(row_num, 3).text()
-            == self.state.scene_filename
-        ):
-            self.imageTableWidget.setItem(
-                row_num, col_num, QTableWidgetItem(self.selected_icon, '')
-            )
-        else:
-            self.imageTableWidget.setItem(
-                row_num, col_num, QTableWidgetItem('')
-            )
+        self.imageTableWidget.setItem(
+            row_num, col_num, QTableWidgetItem(self.selected_icon, '')
+        )
         col_num += 1
         self.imageTableWidget.setItem(
             row_num, col_num, QTableWidgetItem(str('Scene'))
@@ -329,8 +338,8 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             self.redraw_scene_row(row_num)
             row_num += 1
 
-        file_records = self.settings.get_file_records()
-        for file in file_records:
+        self.settings.read_file_records()
+        for file in self.settings.file_records:
             if (
                 file.filename not in self.state.image_filename
                 and file.file_type == 'image'
@@ -494,8 +503,22 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         self.redraw_image_row(img_num)
 
     @time_and_log
-    def rename_selected(self):
-        pass
+    def relabel_selected(self):
+        for row in self.selected:
+            widget = QWidget()
+            text, ok = QInputDialog.getText(
+                widget,
+                f'Relabel {self.imageTableWidget.item(row, self.col_label).text()}',
+                'New label:',
+            )
+            if ok:
+                self.settings.relabel(
+                    self.imageTableWidget.item(row, self.col_filename).text(),
+                    text,
+                )
+                self.imageTableWidget.setItem(
+                    row, self.col_label, QTableWidgetItem(text)
+                )
 
     @time_and_log
     def select_data_by_table(self, row, col):
