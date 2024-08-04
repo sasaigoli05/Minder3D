@@ -113,7 +113,9 @@ class ImageTableSettings(QSettings):
         file_size = ''
         file_thumbnail = ''
         if file_type == 'image':
-            file_spacing = ','.join([str(s) for s in obj.GetSpacing()])
+            file_spacing = ', '.join(
+                [str(f'{s:.4f}') for s in obj.GetSpacing()]
+            )
             file_size = 'x'.join(
                 [str(s) for s in obj.GetLargestPossibleRegion().GetSize()]
             )

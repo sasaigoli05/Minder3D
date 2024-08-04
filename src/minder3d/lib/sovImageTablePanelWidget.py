@@ -121,7 +121,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
     @time_and_log
     def remove_all(self):
         num_images = len(self.state.image_filename)
-        for row in range(self.imageTableWidget.getRowCount()):
+        for row in range(self.imageTableWidget.rowCount()):
             if row < num_images:
                 self.gui.unload_image(row, False)
             self.settings.remove_data(
@@ -231,7 +231,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             f'{i:.4f}' for i in self.state.image[img_num].GetSpacing()
         ]
         self.imageTableWidget.setItem(
-            row_num, col_num, QTableWidgetItem(','.join(spacing_str))
+            row_num, col_num, QTableWidgetItem(', '.join(spacing_str))
         )
         col_num += 1
         filename = self.state.image_filename[img_num]
