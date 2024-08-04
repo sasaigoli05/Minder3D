@@ -589,6 +589,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.state.image_max.pop(img_num)
         self.state.image_filename.pop(img_num)
         self.state.image_thumbnail.pop(img_num)
+        self.state.image_label.pop(img_num)
         self.state.csa_to_image_axis.pop(img_num)
 
         self.state.overlay.pop(img_num)
@@ -610,3 +611,22 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             self.imageTablePanel.unload_image()
 
         self.view2DPanel.update_view_image_num(self.state.current_image_num)
+
+    @time_and_log
+    def unload_scene(self):
+        """
+        This function deletes the all objects from the scene
+        """
+        for scene_idx in range(len(self.state.scene_list)):
+            so_id = self.state.scene_list_ids[scene_idx]
+            if so_id == -1:
+                continue
+            so = self.state.scene_list[scene_idx]
+            so_parent = so.GetParent()
+            so_parent.RemoveChild(so)
+            self.state.scene_list.pop(scene_idx)
+            self.state.scene_list_properties.pop(scene_idx)
+        self.state.selected_ids = []
+        self.state.selected_point_ids = []
+
+        self.update_scene()
