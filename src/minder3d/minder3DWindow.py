@@ -31,7 +31,6 @@ from .lib.sovUtils import (
 from .lib.sovView2DPanelWidget import View2DPanelWidget
 from .lib.sovView3DPanelWidget import View3DPanelWidget
 from .lib.sovVisualizationPanelWidget import VisualizationPanelWidget
-from .lib.sovWelcomePanelWidget import WelcomePanelWidget
 from .minder3DState import Minder3DState
 from .ui_minder3DWindow import Ui_MainWindow
 
@@ -89,10 +88,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.infoTablePanel = InfoTablePanelWidget(self, self.state)
         self.infoTableLayout.addWidget(self.infoTablePanel)
 
-        # Welcome Tab
-        self.welcomePanel = WelcomePanelWidget(self, self.state)
-        self.welcomeTabLayout.addWidget(self.welcomePanel)
-
         # Visualization Tab
         self.visualizationPanel = VisualizationPanelWidget(self, self.state)
         self.visualizationTabLayout.addWidget(self.visualizationPanel)
@@ -106,14 +101,14 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.tabWidget.setFixedWidth(700)
 
         self.importDICOMPanel = None
+        self.importExportPanel = None
         self.lungCTAPanel = None
         self.otsuPanel = None
         self.imageProcessPanel = None
 
-        # Remove Close buttons from welcome, visualization, and pre-process
-        # and task tabs
+        # Remove Close buttons from NewTask and Advanced Visualization tabs
         tabBar = self.tabWidget.tabBar()
-        for i in range(0, 3):
+        for i in range(0, 2):
             tabBar.tabButton(i, QTabBar.RightSide).deleteLater()
             tabBar.setTabButton(i, QTabBar.RightSide, None)
 
@@ -608,12 +603,12 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             self.state.current_image_num = -1
 
         if update_image_table:
-            self.imageTablePanel.unload_image()
+            self.imageTablePanel.fill_table()
 
         self.view2DPanel.update_view_image_num(self.state.current_image_num)
 
     @time_and_log
-    def unload_scene(self):
+    def unload_scene(self, update_image_table=True):
         """
         This function deletes the all objects from the scene
         """
@@ -628,5 +623,15 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             self.state.scene_list_properties.pop(scene_idx)
         self.state.selected_ids = []
         self.state.selected_point_ids = []
+        self.state.scene_filename = ''
+        self.state.scene_thumbnail = None
+        self.state.scene_label = ''
+
+        self.state.scene_list = []
+        self.state.scene_list_ids = []
+        self.state.scene_list_properties = []
+
+        if update_image_table:
+            self.imageTablePanel.fill_table()
 
         self.update_scene()

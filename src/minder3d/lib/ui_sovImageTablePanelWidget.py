@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovImageTablePanelWidgetQPMrUq.ui'
+## Form generated from reading UI file 'sovImageTablePanelWidgetFuPhUK.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.4
 ##
@@ -47,16 +47,29 @@ class Ui_ImageTablePanelWidget(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.imageTableLoadButton = QPushButton(ImageTablePanelWidget)
-        self.imageTableLoadButton.setObjectName(u"imageTableLoadButton")
+        self.imageTableImportExportButton = QPushButton(ImageTablePanelWidget)
+        self.imageTableImportExportButton.setObjectName(u"imageTableImportExportButton")
         sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.imageTableImportExportButton.sizePolicy().hasHeightForWidth())
+        self.imageTableImportExportButton.setSizePolicy(sizePolicy1)
+        self.imageTableImportExportButton.setMinimumSize(QSize(110, 0))
+        font = QFont()
+        font.setPointSize(7)
+        self.imageTableImportExportButton.setFont(font)
+
+        self.horizontalLayout_2.addWidget(self.imageTableImportExportButton)
+
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_4)
+
+        self.imageTableLoadButton = QPushButton(ImageTablePanelWidget)
+        self.imageTableLoadButton.setObjectName(u"imageTableLoadButton")
         sizePolicy1.setHeightForWidth(self.imageTableLoadButton.sizePolicy().hasHeightForWidth())
         self.imageTableLoadButton.setSizePolicy(sizePolicy1)
         self.imageTableLoadButton.setMinimumSize(QSize(50, 0))
-        font = QFont()
-        font.setPointSize(7)
         self.imageTableLoadButton.setFont(font)
 
         self.horizontalLayout_2.addWidget(self.imageTableLoadButton)
@@ -74,14 +87,14 @@ class Ui_ImageTablePanelWidget(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
 
-        self.imageTableRenameButton = QPushButton(ImageTablePanelWidget)
-        self.imageTableRenameButton.setObjectName(u"imageTableRenameButton")
-        sizePolicy1.setHeightForWidth(self.imageTableRenameButton.sizePolicy().hasHeightForWidth())
-        self.imageTableRenameButton.setSizePolicy(sizePolicy1)
-        self.imageTableRenameButton.setMinimumSize(QSize(50, 0))
-        self.imageTableRenameButton.setFont(font)
+        self.imageTableRelabelButton = QPushButton(ImageTablePanelWidget)
+        self.imageTableRelabelButton.setObjectName(u"imageTableRelabelButton")
+        sizePolicy1.setHeightForWidth(self.imageTableRelabelButton.sizePolicy().hasHeightForWidth())
+        self.imageTableRelabelButton.setSizePolicy(sizePolicy1)
+        self.imageTableRelabelButton.setMinimumSize(QSize(50, 0))
+        self.imageTableRelabelButton.setFont(font)
 
-        self.horizontalLayout_2.addWidget(self.imageTableRenameButton)
+        self.horizontalLayout_2.addWidget(self.imageTableRelabelButton)
 
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
@@ -96,15 +109,6 @@ class Ui_ImageTablePanelWidget(object):
 
         self.horizontalLayout_2.addWidget(self.imageTableRemoveButton)
 
-        self.imageTableRemoveAllButton = QPushButton(ImageTablePanelWidget)
-        self.imageTableRemoveAllButton.setObjectName(u"imageTableRemoveAllButton")
-        sizePolicy1.setHeightForWidth(self.imageTableRemoveAllButton.sizePolicy().hasHeightForWidth())
-        self.imageTableRemoveAllButton.setSizePolicy(sizePolicy1)
-        self.imageTableRemoveAllButton.setMinimumSize(QSize(50, 0))
-        self.imageTableRemoveAllButton.setFont(font)
-
-        self.horizontalLayout_2.addWidget(self.imageTableRemoveAllButton)
-
         self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
@@ -116,8 +120,8 @@ class Ui_ImageTablePanelWidget(object):
         self.imageTableExpandButton.setMinimumSize(QSize(23, 23))
         self.imageTableExpandButton.setMaximumSize(QSize(23, 23))
         font1 = QFont()
-        font1.setPointSize(7)
-        font1.setBold(True)
+        font1.setPointSize(10)
+        font1.setBold(False)
         self.imageTableExpandButton.setFont(font1)
 
         self.horizontalLayout_2.addWidget(self.imageTableExpandButton)
@@ -136,11 +140,11 @@ class Ui_ImageTablePanelWidget(object):
 
     def retranslateUi(self, ImageTablePanelWidget):
         ImageTablePanelWidget.setWindowTitle(QCoreApplication.translate("ImageTablePanelWidget", u"Form", None))
+        self.imageTableImportExportButton.setText(QCoreApplication.translate("ImageTablePanelWidget", u"Import / Save / Export", None))
         self.imageTableLoadButton.setText(QCoreApplication.translate("ImageTablePanelWidget", u"Load", None))
         self.imageTableUnloadButton.setText(QCoreApplication.translate("ImageTablePanelWidget", u"Unload", None))
-        self.imageTableRenameButton.setText(QCoreApplication.translate("ImageTablePanelWidget", u"Rename", None))
+        self.imageTableRelabelButton.setText(QCoreApplication.translate("ImageTablePanelWidget", u"Relabel", None))
         self.imageTableRemoveButton.setText(QCoreApplication.translate("ImageTablePanelWidget", u"Remove", None))
-        self.imageTableRemoveAllButton.setText(QCoreApplication.translate("ImageTablePanelWidget", u"Remove All", None))
-        self.imageTableExpandButton.setText(QCoreApplication.translate("ImageTablePanelWidget", u". . .", None))
+        self.imageTableExpandButton.setText(QCoreApplication.translate("ImageTablePanelWidget", u"[*]", None))
     # retranslateUi
 
