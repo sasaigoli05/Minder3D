@@ -5,6 +5,7 @@ import itk
 import numpy as np
 from PySide6.QtCore import QSettings, QStandardPaths, Qt
 from PySide6.QtGui import QImage, QPixmap
+from vtk.util.numpy_support import vtk_to_numpy
 
 from .sovUtils import time_and_log
 
@@ -217,18 +218,22 @@ class ImageTableSettings(QSettings):
                 return
 
     @time_and_log
-    def get_thumbnail(self, obj, filename, file_type):
+    def get_thumbnail(
+        self, obj, filename, file_type, force_new_thumbnail=False
+    ):
         """Get the thumbnail of a file.
 
         This function retrieves the thumbnail of a file from the settings.
         """
-        for file in self.file_records:
-            if file.filename == filename:
-                return QPixmap(file.file_thumbnail)
+        if not force_new_thumbnail:
+            for file in self.file_records:
+                if file.filename == filename:
+                    return QPixmap(file.file_thumbnail)
+
         if file_type == 'image':
             return self.get_thumbnail_pixmap_from_image(obj)
         elif file_type == 'scene':
-            return QPixmap(':/icons/scene.png')
+            return self.get_thumbnail_pixmap_from_vtk_image(obj)
 
     @time_and_log
     def get_thumbnail_pixmap_from_image(self, img):
@@ -255,6 +260,43 @@ class ImageTableSettings(QSettings):
         )
         thumb_image.setDotsPerMeterX(10 / img.GetSpacing()[0])
         thumb_image.setDotsPerMeterY(10 / img.GetSpacing()[1])
+        thumb_pixmap = QPixmap.fromImage(thumb_image).scaled(
+            100, 100, Qt.KeepAspectRatio
+        )
+        return thumb_pixmap
+
+    @time_and_log
+    def get_thumbnail_pixmap_from_vtk_image(self, img):
+        vtk_array = img.GetPointData().GetScalars()
+        np_array = vtk_to_numpy(vtk_array)
+        dims = img.GetDimensions()
+        np_array = np_array.reshape(dims[1], dims[0], dims[2], -1)
+
+        # Process the NumPy array
+        if np_array.shape[3] == 1:
+            np_array = np_array[:, :, :, 0]
+            np_array = np.stack([np_array] * 3, axis=-1)
+        elif np_array.shape[3] == 4:
+            np_array = np_array[:, :, :, :3]
+
+        auto_range = np.quantile(np_array, [0.05, 0.95])
+        np_array = np.clip(np_array, auto_range[0], auto_range[1])
+        np_array = (
+            (np_array - auto_range[0]) / (auto_range[1] - auto_range[0]) * 255
+        ).astype(np.uint8)
+
+        # Create QImage
+        thumb_image = QImage(
+            np_array.data,
+            np_array.shape[1],
+            np_array.shape[0],
+            np_array.strides[0],
+            QImage.Format_RGB888,
+        )
+        thumb_image.setDotsPerMeterX(10 / img.GetSpacing()[0])
+        thumb_image.setDotsPerMeterY(10 / img.GetSpacing()[1])
+
+        # Convert QImage to QPixmap
         thumb_pixmap = QPixmap.fromImage(thumb_image).scaled(
             100, 100, Qt.KeepAspectRatio
         )

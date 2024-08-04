@@ -122,7 +122,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 self.gui.unload_scene(False)
         if len(self.selected) > 0:
             self.selected = []
-            self.fill_table()
+        self.fill_table()
 
     @time_and_log
     def remove_selected(self):
@@ -146,7 +146,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 )
         if len(self.selected) > 0:
             self.selected = []
-            self.fill_table()
+        self.fill_table()
 
     @time_and_log
     def close_expanded_table(self):
@@ -475,7 +475,9 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
     @time_and_log
     def load_scene(self):
         self.state.scene_thumbnail = self.settings.get_thumbnail(
-            self.state.scene, self.state.scene_filename, 'scene'
+            self.gui.view3DPanel.get_screenshot(),
+            self.state.scene_filename,
+            'scene',
         )
         self.state.scene_label = os.path.basename(self.state.scene_filename)
         self.settings.add_data(
@@ -490,6 +492,10 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
 
     @time_and_log
     def save_scene(self, filename):
+        self.state.scene_thumbnail = self.settings.get_thumbnail(
+            self.gui.view3DPanel.get_screenshot(), filename, 'scene', True
+        )
+        self.state.scene_label = os.path.basename(filename)
         self.settings.add_data(
             self.state.scene,
             filename,
@@ -497,6 +503,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             self.state.scene_label,
             self.state.scene_thumbnail,
         )
+        self.fill_table()
 
     @time_and_log
     def replace_image(self, img_num):
@@ -561,7 +568,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         self.fill_table()
 
     @time_and_log
-    def register_images(self, dir, first=True):
+    def register_images(self, dir, redraw_table=True):
         files = [
             os.path.join(dir, f)
             for f in os.listdir(dir)
@@ -584,7 +591,6 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 continue
             label = os.path.basename(filename)
             thumbnail = self.settings.get_thumbnail(img, filename, 'image')
-            print(f'Adding {filename} to settings')
             self.settings.add_data(
                 img,
                 filename,
@@ -601,6 +607,6 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         for dirname in dirs:
             self.register_images(dirname, False)
 
-        if first:
+        if redraw_table:
             self.selected = []
             self.fill_table()
