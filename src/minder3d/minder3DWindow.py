@@ -347,7 +347,9 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             )
         if filename:
             exporter = vtk.vtkVRMLExporter()
-            exporter.SetRenderWindow(self.view3DPanel.renderWindow)
+            exporter.SetRenderWindow(
+                self.view3DPanel.vtk3DViewWidget.GetRenderWindow()
+            )
             exporter.SetFileName(filename)
             exporter.Write()
             exporter.Update()
@@ -374,7 +376,6 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
             self.state.scene_filename = os.path.abspath(filename)
             self.log(f'Saving scene to {filename}')
             new_scene = compress_scene_for_saving(self.state.scene)
-            print(new_scene)
             write_group(new_scene, filename)
             self.imageTablePanel.save_scene(filename)
 
