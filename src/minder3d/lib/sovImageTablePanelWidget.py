@@ -42,20 +42,21 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         self.selected_icon = self.style().standardIcon(pixmapi)
 
         self.imageTableWidget.setRowCount(0)
-        self.imageTableWidget.setColumnCount(7)
+        self.imageTableWidget.setColumnCount(8)
         self.imageTableWidget.setHorizontalHeaderLabels(
             [
                 'Selected',
                 'Loaded',
                 'Type',
                 'Thumbnail',
+                'Label',
                 'Size',
                 'Spacing',
                 'Filename',
             ]
         )
         self.col_filetype = 2
-        self.col_filename = 6
+        self.col_filename = 7
         self.imageTableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         self.imageTableWidget.setSelectionBehavior(QTableWidget.SelectRows)
         self.imageTableWidget.setSelectionMode(QTableWidget.SingleSelection)
@@ -96,40 +97,46 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             self.selected = []
             self.fill_table()
 
+    @time_and_log
     def remove_selected(self):
         for row in self.selected:
             if row < len(self.state.image_filename):
                 self.gui.unload_image(row, False)
                 self.settings.remove_data(self.state.image_filename[row])
-            elif row == len(self.state.image_filename):
+            elif (
+                row == len(self.state.image_filename)
+                and self.state.scene_filename
+                != self.imageTableWidget.item(row, self.col_filename).text()
+            ):
                 self.gui.unload_scene()
-                self.settings.remove_data(self.state.scene_filename)
+                self.settings.remove_data(self.state.image_filename[row])
             else:
-                filename = str(
-                    self.imageTableWidget.getItem(
-                        row, self.col_filename
-                    ).values[0]
+                self.settings.remove_data(
+                    self.imageTableWidget.item(row, self.col_filename).text()
                 )
-                self.settings.remove_data(filename)
         if len(self.selected) > 0:
             self.selected = []
             self.fill_table()
 
+    @time_and_log
     def remove_all(self):
         num_images = len(self.state.image_filename)
-        for row in range(num_images - 1, 0, -1):
-            self.gui.unload_image(row, False)
-            self.settings.remove_data(self.state.image_filename[row])
-        self.gui.unload_scene()
-        self.settings.remove_data(self.state.scene_filename)
+        for row in range(self.imageTableWidget.getRowCount()):
+            if row < num_images:
+                self.gui.unload_image(row, False)
+            self.settings.remove_data(
+                self.imageTableWidget.item(row, self.col_filename).text()
+            )
         self.selected = []
         self.settings.clear_data()
         self.fill_table()
 
+    @time_and_log
     def close_expanded_table(self):
         self.enlarged_table.close()
         self.enlarged_table = None
 
+    @time_and_log
     def expand_table(self):
         if self.enlarged_table is None:
             self.enlarged_table = ImageTablePanelWidget(self.gui, self.state)
@@ -204,6 +211,12 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             QTableWidgetItem(QIcon(self.state.image_thumbnail[img_num]), ''),
         )
         col_num += 1
+        self.imageTableWidget.setItem(
+            row_num,
+            col_num,
+            QTableWidgetItem(QIcon(self.state.image_label[img_num]), ''),
+        )
+        col_num += 1
         size_str = [
             str(i)
             for i in self.state.image[img_num]
@@ -261,6 +274,10 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             QTableWidgetItem(QIcon(self.state.scene_thumbnail), ''),
         )
         col_num += 1
+        self.imageTableWidget.setItem(
+            row_num, col_num, QTableWidgetItem(self.state.scene_label)
+        )
+        col_num += 1
         size = self.state.scene.GetNumberOfChildren()
         self.imageTableWidget.setItem(
             row_num, col_num, QTableWidgetItem(str(size))
@@ -296,6 +313,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 'Loaded',
                 'Type',
                 'Thumbnail',
+                'Label',
                 'Size',
                 'Spacing',
                 'Filename',
@@ -350,6 +368,10 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                     )
                 col_num += 1
                 self.imageTableWidget.setItem(
+                    row_num, col_num, QTableWidgetItem(str(file.file_label))
+                )
+                col_num += 1
+                self.imageTableWidget.setItem(
                     row_num, col_num, QTableWidgetItem(str(file.file_size))
                 )
                 col_num += 1
@@ -393,6 +415,10 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 )
                 col_num += 1
                 self.imageTableWidget.setItem(
+                    row_num, col_num, QTableWidgetItem(file.file_label)
+                )
+                col_num += 1
+                self.imageTableWidget.setItem(
                     row_num, col_num, QTableWidgetItem(file.file_size)
                 )
                 col_num += 1
@@ -407,6 +433,9 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
 
     @time_and_log
     def create_new_image(self):
+        self.state.image_label.append(
+            os.path.basename(self.state.image_filename[-1])
+        )
         self.state.image_thumbnail.append(
             self.settings.get_thumbnail(
                 self.state.image[-1], self.state.image_filename[-1], 'image'
@@ -416,6 +445,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             self.state.image[-1],
             self.state.image_filename[-1],
             'image',
+            self.state.image_label[-1],
             self.state.image_thumbnail[-1],
         )
         self.selected = []
@@ -427,6 +457,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
             self.state.image[self.state.current_image_num],
             filename,
             'image',
+            self.state.image_label[self.state.current_image_num],
             self.state.image_thumbnail[self.state.current_image_num],
         )
         self.selected = []
@@ -437,10 +468,12 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         self.state.scene_thumbnail = self.settings.get_thumbnail(
             self.state.scene, self.state.scene_filename, 'scene'
         )
+        self.state.scene_label = os.path.basename(self.state.scene_filename)
         self.settings.add_data(
             self.state.scene,
             self.state.scene_filename,
             'scene',
+            self.state.scene_label,
             self.state.scene_thumbnail,
         )
         self.selected = []
@@ -449,13 +482,18 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
     @time_and_log
     def save_scene(self, filename):
         self.settings.add_data(
-            self.state.scene, filename, 'scene', self.state.scene_thumbnail
+            self.state.scene,
+            filename,
+            'scene',
+            self.state.scene_label,
+            self.state.scene_thumbnail,
         )
 
     @time_and_log
     def replace_image(self, img_num):
         self.redraw_image_row(img_num)
 
+    @time_and_log
     def rename_selected(self):
         pass
 
@@ -521,12 +559,14 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                 img = imread(filename)
             except Exception:
                 continue
+            label = os.path.basename(filename)
             thumbnail = self.settings.get_thumbnail(img, filename, 'image')
             print(f'Adding {filename} to settings')
             self.settings.add_data(
                 img,
                 filename,
                 'image',
+                label,
                 thumbnail,
             )
 

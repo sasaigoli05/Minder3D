@@ -17,6 +17,7 @@ class ImageTableSettingsFileRecord:
         file_spacing='',
         file_size='',
         file_thumbnail='',
+        file_label='',
     ):
         """Initialize the object with the provided file details.
 
@@ -26,6 +27,7 @@ class ImageTableSettingsFileRecord:
             file_spacing (str): A list of spacing details. Defaults to ''.
             file_size (str): A list of size details. Defaults to ''.
             file_thumbnail (str): The thumbnail of the file. Defaults to ''.
+            file_label (str): The short diaplay-name of the file. Defaults to ''.
         """
 
         self.filename = filename
@@ -33,6 +35,7 @@ class ImageTableSettingsFileRecord:
         self.file_spacing = file_spacing
         self.file_size = file_size
         self.file_thumbnail = file_thumbnail
+        self.file_label = file_label
 
 
 class ImageTableSettings(QSettings):
@@ -69,15 +72,23 @@ class ImageTableSettings(QSettings):
                 file_spacing = self.value('file_spacing', '')
                 file_size = self.value('file_size', '')
                 file_thumbnail = self.value('file_thumbnail', '')
+                file_label = self.value('file_label', '')
                 file = ImageTableSettingsFileRecord(
-                    filename, file_type, file_spacing, file_size, file_thumbnail
+                    filename,
+                    file_type,
+                    file_spacing,
+                    file_size,
+                    file_thumbnail,
+                    file_label,
                 )
                 file_records.append(file)
         self.endArray()
         return file_records
 
     @time_and_log
-    def add_data(self, obj, filename, file_type, thumbnail_pixmap=None):
+    def add_data(
+        self, obj, filename, file_type, file_label=None, thumbnail_pixmap=None
+    ):
         """Add a file to the settings.
 
         This function adds a file to the settings, including its filename, type,
@@ -87,6 +98,7 @@ class ImageTableSettings(QSettings):
             obj: The object representing the file.
             filename (str): The name of the file.
             file_type (str): The type of the file.
+            file_label (Optional[str]): The custom label of file, defaults to basename of filename
             thumbnail_pixmap (Optional[QPixmap]): The thumbnail of the file.
 
 
@@ -115,6 +127,8 @@ class ImageTableSettings(QSettings):
             file_thumbnail = os.path.join(data_dir, file_thumbnail)
             if not thumbnail_pixmap.save(file_thumbnail):
                 file_thumbnail = ''
+        if file_label is None or file_label == '':
+            file_label = os.path.basename(filename)
 
         self.beginWriteArray('files')
         for i, file in enumerate(file_records):
@@ -128,6 +142,7 @@ class ImageTableSettings(QSettings):
                 ):
                     os.remove(file.file_thumbnail)
                 self.setValue('file_thumbnail', file_thumbnail)
+                self.setValue('file_label', file_label)
                 self.setArrayIndex(len(file_records) - 1)
                 self.endArray()
                 self.sync()
@@ -145,12 +160,14 @@ class ImageTableSettings(QSettings):
                 self.setValue('file_spacing', file.file_spacing)
                 self.setValue('file_size', file.file_size)
                 self.setValue('file_thumbnail', file.file_thumbnail)
+                self.setValue('file_label', file.file_label)
         self.setArrayIndex(len(file_records))
         self.setValue('filename', filename)
         self.setValue('file_type', file_type)
         self.setValue('file_spacing', file_spacing)
         self.setValue('file_size', file_size)
         self.setValue('file_thumbnail', file_thumbnail)
+        self.setValue('file_label', file_label)
         self.setArrayIndex(len(file_records) - 1)
         self.endArray()
         self.sync()
@@ -182,11 +199,12 @@ class ImageTableSettings(QSettings):
                 for j in range(i + 1, len(file_records)):
                     next_file = file_records[j]
                     self.setArrayIndex(j - 1)
-                    self.setValue('file_filename', next_file.file_filename)
+                    self.setValue('file_filename', next_file.filename)
                     self.setValue('file_type', next_file.file_type)
                     self.setValue('file_spacing', next_file.file_spacing)
                     self.setValue('file_size', next_file.file_size)
                     self.setValue('file_thumbnail', next_file.file_thumbnail)
+                    self.setValue('file_label', next_file.file_label)
                 self.sync()
                 return
             else:
@@ -196,6 +214,7 @@ class ImageTableSettings(QSettings):
                 self.setValue('file_spacing', next_file.file_spacing)
                 self.setValue('file_size', next_file.file_size)
                 self.setValue('file_thumbnail', next_file.file_thumbnail)
+                self.setValue('file_label', next_file.file_label)
         self.sync()
         return
 
