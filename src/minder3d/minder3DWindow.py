@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
 )
 
 from .lib.sovImageTablePanelWidget import ImageTablePanelWidget
+from .lib.sovImportExportPanelWidget import ImportExportPanelWidget
 from .lib.sovInfoTablePanelWidget import InfoTablePanelWidget
 from .lib.sovNewTaskPanelWidget import NewTaskPanelWidget
 from .lib.sovObjectPanelWidget import ObjectPanelWidget
@@ -88,13 +89,17 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.infoTablePanel = InfoTablePanelWidget(self, self.state)
         self.infoTableLayout.addWidget(self.infoTablePanel)
 
-        # Visualization Tab
-        self.visualizationPanel = VisualizationPanelWidget(self, self.state)
-        self.visualizationTabLayout.addWidget(self.visualizationPanel)
+        # Import/Save/Export Tab
+        self.importExportPanel = ImportExportPanelWidget(self, self.state)
+        self.importExportTabLayout.addWidget(self.importExportPanel)
 
         # New Task Tab
         self.newTaskPanel = NewTaskPanelWidget(self, self.state)
         self.newTaskTabLayout.addWidget(self.newTaskPanel)
+
+        # Visualization Tab
+        self.visualizationPanel = VisualizationPanelWidget(self, self.state)
+        self.visualizationTabLayout.addWidget(self.visualizationPanel)
 
         self.tabWidget.tabCloseRequested.connect(self.tab_close_event)
         self.tabWidget.setFixedHeight(200)
@@ -102,13 +107,14 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
 
         self.importDICOMPanel = None
         self.importExportPanel = None
-        self.lungCTAPanel = None
+        self.totalSegmentatorPanel = None
+        self.indexedOrgansPanel = None
         self.otsuPanel = None
         self.imageProcessPanel = None
 
         # Remove Close buttons from NewTask and Advanced Visualization tabs
         tabBar = self.tabWidget.tabBar()
-        for i in range(0, 2):
+        for i in range(0, 3):
             tabBar.tabButton(i, QTabBar.RightSide).deleteLater()
             tabBar.setTabButton(i, QTabBar.RightSide, None)
 

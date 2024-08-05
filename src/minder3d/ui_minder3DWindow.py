@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'minder3DWindowxPlUYJ.ui'
+## Form generated from reading UI file 'minder3DWindowrUWpZm.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.4
 ##
@@ -119,6 +119,11 @@ class Ui_MainWindow(object):
         self.tabWidget.setSizePolicy(sizePolicy1)
         self.tabWidget.setMinimumSize(QSize(830, 194))
         self.tabWidget.setTabsClosable(True)
+        self.importExportTab = QWidget()
+        self.importExportTab.setObjectName(u"importExportTab")
+        self.importExportTabLayout = QHBoxLayout(self.importExportTab)
+        self.importExportTabLayout.setObjectName(u"importExportTabLayout")
+        self.tabWidget.addTab(self.importExportTab, "")
         self.newTaskTab = QWidget()
         self.newTaskTab.setObjectName(u"newTaskTab")
         self.newTaskTabLayout = QHBoxLayout(self.newTaskTab)
@@ -224,6 +229,8 @@ class Ui_MainWindow(object):
         self.loadSceneMenuItem.setText(QCoreApplication.translate("MainWindow", u"Load Spatial Objects", None))
         self.saveSceneMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Spatial Objects", None))
         self.savePreProcessedOverlayMenuItem.setText(QCoreApplication.translate("MainWindow", u"Save Pre-Processed Overlay", None))
+        self.importExportTab.setProperty("Layout", "")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.importExportTab), QCoreApplication.translate("MainWindow", u"Import/Save/Export", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.newTaskTab), QCoreApplication.translate("MainWindow", u"New Task", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.visualizationTab), QCoreApplication.translate("MainWindow", u"Advanced Visualization", None))
         self.statusLabel.setText(QCoreApplication.translate("MainWindow", u"Status:", None))

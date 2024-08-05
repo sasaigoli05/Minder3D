@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovImportExportPanelWidgetPIUfEo.ui'
+## Form generated from reading UI file 'sovImportExportPanelWidgetjUodgw.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.4
 ##
@@ -25,27 +25,37 @@ class Ui_ImportExportPanelWidget(object):
         self.importExportLoadImageButton = QPushButton(ImportExportPanelWidget)
         self.importExportLoadImageButton.setObjectName(u"importExportLoadImageButton")
         self.importExportLoadImageButton.setGeometry(QRect(20, 10, 121, 24))
+        font = QFont()
+        font.setPointSize(7)
+        self.importExportLoadImageButton.setFont(font)
         self.importExportImportDICOMButton = QPushButton(ImportExportPanelWidget)
         self.importExportImportDICOMButton.setObjectName(u"importExportImportDICOMButton")
         self.importExportImportDICOMButton.setGeometry(QRect(20, 100, 121, 24))
+        self.importExportImportDICOMButton.setFont(font)
         self.importExportSaveImageButton = QPushButton(ImportExportPanelWidget)
         self.importExportSaveImageButton.setObjectName(u"importExportSaveImageButton")
         self.importExportSaveImageButton.setGeometry(QRect(180, 10, 121, 24))
+        self.importExportSaveImageButton.setFont(font)
         self.importExportSaveSceneButton = QPushButton(ImportExportPanelWidget)
         self.importExportSaveSceneButton.setObjectName(u"importExportSaveSceneButton")
         self.importExportSaveSceneButton.setGeometry(QRect(180, 40, 121, 24))
+        self.importExportSaveSceneButton.setFont(font)
         self.importExportLoadSceneButton = QPushButton(ImportExportPanelWidget)
         self.importExportLoadSceneButton.setObjectName(u"importExportLoadSceneButton")
         self.importExportLoadSceneButton.setGeometry(QRect(20, 40, 121, 24))
+        self.importExportLoadSceneButton.setFont(font)
         self.importExportSaveOverlayButton = QPushButton(ImportExportPanelWidget)
         self.importExportSaveOverlayButton.setObjectName(u"importExportSaveOverlayButton")
         self.importExportSaveOverlayButton.setGeometry(QRect(180, 70, 121, 24))
+        self.importExportSaveOverlayButton.setFont(font)
         self.importExportSaveVTKModelsButton = QPushButton(ImportExportPanelWidget)
         self.importExportSaveVTKModelsButton.setObjectName(u"importExportSaveVTKModelsButton")
         self.importExportSaveVTKModelsButton.setGeometry(QRect(340, 40, 121, 24))
+        self.importExportSaveVTKModelsButton.setFont(font)
         self.importExportLoadOverlayButton = QPushButton(ImportExportPanelWidget)
         self.importExportLoadOverlayButton.setObjectName(u"importExportLoadOverlayButton")
         self.importExportLoadOverlayButton.setGeometry(QRect(20, 70, 121, 24))
+        self.importExportLoadOverlayButton.setFont(font)
 
         self.retranslateUi(ImportExportPanelWidget)
 

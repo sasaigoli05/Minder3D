@@ -158,6 +158,15 @@
             <property name="tabsClosable">
              <bool>true</bool>
             </property>
+            <widget class="QWidget" name="importExportTab">
+             <property name="Layout" stdset="0">
+              <string/>
+             </property>
+             <attribute name="title">
+              <string>Import/Save/Export</string>
+             </attribute>
+             <layout class="QHBoxLayout" name="importExportTabLayout"/>
+            </widget>
             <widget class="QWidget" name="newTaskTab">
              <attribute name="title">
               <string>New Task</string>

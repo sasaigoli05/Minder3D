@@ -1,8 +1,9 @@
 from PySide6.QtWidgets import QWidget
 
 from .sovImageProcessPanelWidget import ImageProcessPanelWidget
-from .sovLungCTAPanelWidget import LungCTAPanelWidget
+from .sovIndexedOrgansPanelWidget import IndexedOrgansPanelWidget
 from .sovOtsuPanelWidget import OtsuPanelWidget
+from .sovTotalSegmentatorPanelWidget import TotalSegmentatorPanelWidget
 from .sovUtils import time_and_log
 from .ui_sovNewTaskPanelWidget import Ui_NewTaskPanelWidget
 
@@ -23,31 +24,41 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
         self.gui = gui
         self.state = state
 
-        self.newTaskLungCTAButton.clicked.connect(self.add_lung_cta_panel)
+        self.newTaskTotalSegmentatorButton.clicked.connect(
+            self.add_total_segmentator_panel
+        )
+        self.newTaskIndexedOrgansButton.clicked.connect(
+            self.add_indexed_organs_panel
+        )
         self.newTaskOtsuButton.clicked.connect(self.add_otsu_panel)
         self.newTaskImageProcessButton.clicked.connect(
             self.add_image_process_panel
         )
 
     @time_and_log
-    def add_lung_cta_panel(self):
-        """Add the Lung CTA panel to the GUI tab widget if it is not already added.
-
-        If the Lung CTA panel is not already created, it creates a new instance of LungCTAPanelWidget and adds it to the tab widget.
-        If the Lung CTA panel is already added, it sets the current widget to the Lung CTA panel.
-
-        Args:
-            self (object): The instance of the class.
-        """
-
-        if self.gui.lungCTAPanel is None:
-            self.gui.lungCTAPanel = LungCTAPanelWidget(self.gui, self.state)
-        if self.gui.tabWidget.indexOf(self.gui.lungCTAPanel) == -1:
+    def add_total_segmentator_panel(self):
+        if self.gui.totalSegmentatorPanel is None:
+            self.gui.totalSegmentatorPanel = TotalSegmentatorPanelWidget(
+                self.gui, self.state
+            )
+        if self.gui.tabWidget.indexOf(self.gui.totalSegmentatorPanel) == -1:
             indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
             self.gui.tabWidget.insertTab(
-                indx, self.gui.lungCTAPanel, 'Lung CTA'
+                indx, self.gui.totalSegmentatorPanel, 'Total Segmentator'
             )
-            self.gui.tabWidget.setCurrentWidget(self.gui.lungCTAPanel)
+            self.gui.tabWidget.setCurrentWidget(self.gui.totalSegmentatorPanel)
+
+    def add_indexed_organs_panel(self):
+        if self.gui.indexedOrgansPanel is None:
+            self.gui.indexedOrgansPanel = IndexedOrgansPanelWidget(
+                self.gui, self.state
+            )
+        if self.gui.tabWidget.indexOf(self.gui.indexedOrgansPanel) == -1:
+            indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
+            self.gui.tabWidget.insertTab(
+                indx, self.gui.indexedOrgansPanel, 'Total Segmentator'
+            )
+            self.gui.tabWidget.setCurrentWidget(self.gui.indexedOrgansPanel)
 
     @time_and_log
     def add_image_process_panel(self):

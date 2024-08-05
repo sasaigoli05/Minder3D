@@ -1,13 +1,13 @@
 from PySide6.QtWidgets import QMessageBox, QWidget
 
-from .sovLungCTALogic import LungCTALogic
+from .sovTotalSegmentatorLogic import TotalSegmentatorLogic
 from .sovUtils import add_objects_in_mask_image_to_scene, time_and_log
-from .ui_sovLungCTAPanelWidget import Ui_LungCTAPanelWidget
+from .ui_sovTotalSegmentatorPanelWidget import Ui_TotalSegmentatorPanelWidget
 
 
-class LungCTAPanelWidget(QWidget, Ui_LungCTAPanelWidget):
+class TotalSegmentatorPanelWidget(QWidget, Ui_TotalSegmentatorPanelWidget):
     def __init__(self, gui, state, parent=None):
-        """Initialize the LungCTA application.
+        """Initialize the TotalSegmentator application.
 
         Args:
             gui: The graphical user interface object.
@@ -20,12 +20,14 @@ class LungCTAPanelWidget(QWidget, Ui_LungCTAPanelWidget):
 
         self.gui = gui
         self.state = state
-        self.logic = LungCTALogic()
+        self.logic = TotalSegmentatorLogic()
 
         self.ai_first_run = True
 
-        self.lungStep1Button.clicked.connect(self.segment_ai)
-        self.lungStep1Button.setStyleSheet('background-color: #00aa00')
+        self.totalSegmentatorStep1Button.clicked.connect(self.segment_ai)
+        self.totalSegmentatorStep1Button.setStyleSheet(
+            'background-color: #00aa00'
+        )
 
     @time_and_log
     def segment_ai(self):
