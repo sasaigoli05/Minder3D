@@ -9,7 +9,7 @@ from .sovImageProcessLogic import ImageProcessLogic
 from .sovUtils import time_and_log
 
 
-class LungCTALogic:
+class IndexedOrgansLogic:
     def __init__(self):
         self.ai_first_run = True
         self.image = None
@@ -116,9 +116,7 @@ class LungCTALogic:
         nifti_nib = nib.Nifti1Image(
             np.transpose(pre_array, (2, 1, 0)).copy(), mat
         )
-        seg_nib = totalsegmentator(
-            input=nifti_nib, output=None, task='lung_vessels'
-        )
+        seg_nib = totalsegmentator(input=nifti_nib, output=None, task='total')
 
         seg_array = seg_nib.get_fdata().astype(np.uint8)
         seg_image = itk.GetImageFromArray(

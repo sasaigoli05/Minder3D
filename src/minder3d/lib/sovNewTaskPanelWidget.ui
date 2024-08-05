@@ -16,96 +16,74 @@
   <widget class="QPushButton" name="newTaskOtsuButton">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>60</y>
+     <x>380</x>
+     <y>50</y>
      <width>151</width>
      <height>24</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
    <property name="text">
-    <string>Demo: Otsu Threshold</string>
+    <string>Otsu Threshold</string>
    </property>
   </widget>
   <widget class="QPushButton" name="newTaskImageProcessButton">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>10</y>
+     <x>380</x>
+     <y>20</y>
      <width>151</width>
      <height>24</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Image Preprocessing</string>
    </property>
   </widget>
-  <widget class="QFrame" name="frame">
+  <widget class="QPushButton" name="newTaskIndexedOrgansButton">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>191</width>
-     <height>141</height>
+     <x>20</x>
+     <y>50</y>
+     <width>171</width>
+     <height>24</height>
     </rect>
    </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+   <property name="text">
+    <string>Indexed Organ Statistics</string>
    </property>
-   <widget class="QPushButton" name="newTaskLungCTAButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>171</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Lung CTA: Vessels + Airways</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="newTaskBrainCTAMRAButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>171</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Brain CTA / MRA: Vessels</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="newTaskBrainCTPButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>70</y>
-      <width>171</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Brain CT Perfusion</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="newTaskUltrasoundVesselsButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>100</y>
-      <width>171</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Ultrasound Angio: Vessels</string>
-    </property>
-   </widget>
+  </widget>
+  <widget class="QPushButton" name="newTaskTotalSegmentatorButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>171</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Total Segmentator</string>
+   </property>
   </widget>
  </widget>
  <resources/>

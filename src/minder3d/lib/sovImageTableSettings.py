@@ -271,6 +271,7 @@ class ImageTableSettings(QSettings):
         np_array = vtk_to_numpy(vtk_array)
         dims = img.GetDimensions()
         np_array = np_array.reshape(dims[1], dims[0], dims[2], -1)
+        np_array = np_array[::-1, :, :, :]
 
         # Process the NumPy array
         if np_array.shape[3] == 1:

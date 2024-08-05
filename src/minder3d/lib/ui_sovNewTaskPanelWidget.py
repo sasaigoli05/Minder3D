@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'sovNewTaskPanelWidgetFEPsgF.ui'
+## Form generated from reading UI file 'sovNewTaskPanelWidgetoIIuYf.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.5.0
+## Created by: Qt User Interface Compiler version 6.2.4
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,8 +15,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QPushButton, QSizePolicy,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QPushButton, QSizePolicy, QWidget)
 
 class Ui_NewTaskPanelWidget(object):
     def setupUi(self, NewTaskPanelWidget):
@@ -25,27 +24,22 @@ class Ui_NewTaskPanelWidget(object):
         NewTaskPanelWidget.resize(599, 223)
         self.newTaskOtsuButton = QPushButton(NewTaskPanelWidget)
         self.newTaskOtsuButton.setObjectName(u"newTaskOtsuButton")
-        self.newTaskOtsuButton.setGeometry(QRect(230, 60, 151, 24))
+        self.newTaskOtsuButton.setGeometry(QRect(380, 50, 151, 24))
+        font = QFont()
+        font.setPointSize(7)
+        self.newTaskOtsuButton.setFont(font)
         self.newTaskImageProcessButton = QPushButton(NewTaskPanelWidget)
         self.newTaskImageProcessButton.setObjectName(u"newTaskImageProcessButton")
-        self.newTaskImageProcessButton.setGeometry(QRect(230, 10, 151, 24))
-        self.frame = QFrame(NewTaskPanelWidget)
-        self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(10, 10, 191, 141))
-        self.frame.setFrameShape(QFrame.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Raised)
-        self.newTaskLungCTAButton = QPushButton(self.frame)
-        self.newTaskLungCTAButton.setObjectName(u"newTaskLungCTAButton")
-        self.newTaskLungCTAButton.setGeometry(QRect(10, 10, 171, 24))
-        self.newTaskBrainCTAMRAButton = QPushButton(self.frame)
-        self.newTaskBrainCTAMRAButton.setObjectName(u"newTaskBrainCTAMRAButton")
-        self.newTaskBrainCTAMRAButton.setGeometry(QRect(10, 40, 171, 24))
-        self.newTaskBrainCTPButton = QPushButton(self.frame)
-        self.newTaskBrainCTPButton.setObjectName(u"newTaskBrainCTPButton")
-        self.newTaskBrainCTPButton.setGeometry(QRect(10, 70, 171, 24))
-        self.newTaskUltrasoundVesselsButton = QPushButton(self.frame)
-        self.newTaskUltrasoundVesselsButton.setObjectName(u"newTaskUltrasoundVesselsButton")
-        self.newTaskUltrasoundVesselsButton.setGeometry(QRect(10, 100, 171, 24))
+        self.newTaskImageProcessButton.setGeometry(QRect(380, 20, 151, 24))
+        self.newTaskImageProcessButton.setFont(font)
+        self.newTaskIndexedOrgansButton = QPushButton(NewTaskPanelWidget)
+        self.newTaskIndexedOrgansButton.setObjectName(u"newTaskIndexedOrgansButton")
+        self.newTaskIndexedOrgansButton.setGeometry(QRect(20, 50, 171, 24))
+        self.newTaskIndexedOrgansButton.setFont(font)
+        self.newTaskTotalSegmentatorButton = QPushButton(NewTaskPanelWidget)
+        self.newTaskTotalSegmentatorButton.setObjectName(u"newTaskTotalSegmentatorButton")
+        self.newTaskTotalSegmentatorButton.setGeometry(QRect(20, 20, 171, 24))
+        self.newTaskTotalSegmentatorButton.setFont(font)
 
         self.retranslateUi(NewTaskPanelWidget)
 
@@ -54,11 +48,9 @@ class Ui_NewTaskPanelWidget(object):
 
     def retranslateUi(self, NewTaskPanelWidget):
         NewTaskPanelWidget.setWindowTitle(QCoreApplication.translate("NewTaskPanelWidget", u"Form", None))
-        self.newTaskOtsuButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Demo: Otsu Threshold", None))
+        self.newTaskOtsuButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Otsu Threshold", None))
         self.newTaskImageProcessButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Image Preprocessing", None))
-        self.newTaskLungCTAButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Lung CTA: Vessels + Airways", None))
-        self.newTaskBrainCTAMRAButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Brain CTA / MRA: Vessels", None))
-        self.newTaskBrainCTPButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Brain CT Perfusion", None))
-        self.newTaskUltrasoundVesselsButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Ultrasound Angio: Vessels", None))
+        self.newTaskIndexedOrgansButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Indexed Organ Statistics", None))
+        self.newTaskTotalSegmentatorButton.setText(QCoreApplication.translate("NewTaskPanelWidget", u"Total Segmentator", None))
     # retranslateUi
 

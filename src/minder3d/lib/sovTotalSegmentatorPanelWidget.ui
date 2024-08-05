@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>LungCTAPanelWidget</class>
- <widget class="QWidget" name="LungCTAPanelWidget">
+ <class>TotalSegmentatorPanelWidget</class>
+ <widget class="QWidget" name="TotalSegmentatorPanelWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="lungStep1Button">
+  <widget class="QPushButton" name="totalSegmentatorStep1Button">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -22,21 +22,13 @@
      <height>24</height>
     </rect>
    </property>
-   <property name="text">
-    <string>1) Lung Vessel and Airway Segmentation AI</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="lungStep2Button">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>70</y>
-     <width>261</width>
-     <height>24</height>
-    </rect>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
    </property>
    <property name="text">
-    <string>2) Vessel and Airway Segmentations to Models</string>
+    <string>Run Total Segmentator</string>
    </property>
   </widget>
  </widget>

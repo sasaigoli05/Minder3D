@@ -35,22 +35,6 @@ class View3DPanelWidget(QWidget, Ui_View3DPanelWidget):
         self.vtk3DViewWidget.reset_camera()
 
     def get_screenshot(self):
-        """
-        render = vtkRenderLargeImage()
-        render.SetMagnification(1)
-        render.SetInput(self.vtk3DViewWidget.scene_renderer)
-        render.Update()
-        img = render.GetOutput()
-        data = img.GetPointData()
-        img_scalars = data.GetScalars()
-        dims = img.GetDimensions()
-        n_comp = img_scalars.GetNumberOfComponents()
-        temp = vtk_to_numpy(img_scalars)
-        numpy_data = temp.reshape(dims[1], dims[0], n_comp)
-        numpy_data = numpy_data.transpose(0, 1, 2)
-        numpy_data = np.flipud(numpy_data)
-        return numpy_data
-        """
         screenshotfilter = vtkWindowToImageFilter()
         screenshotfilter.SetInput(
             self.vtk3DViewWidget.scene_renderer.GetRenderWindow()

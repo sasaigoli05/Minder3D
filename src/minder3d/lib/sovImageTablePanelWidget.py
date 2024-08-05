@@ -8,14 +8,12 @@ from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import (
     QHeaderView,
     QInputDialog,
-    QStyle,
     QTableWidget,
     QTableWidgetItem,
     QWidget,
 )
 
 from .sovImageTableSettings import ImageTableSettings
-from .sovImportExportPanelWidget import ImportExportPanelWidget
 from .sovUtils import time_and_log
 from .ui_sovImageTablePanelWidget import Ui_ImageTablePanelWidget
 
@@ -40,8 +38,6 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         self.settings = ImageTableSettings()
 
         self.selected = []
-        pixmapi = getattr(QStyle, 'SP_DialogApplyButton')
-        self.selected_icon = self.style().standardIcon(pixmapi)
 
         self.imageTableWidget.setRowCount(0)
         self.imageTableWidget.setColumnCount(8)
@@ -93,24 +89,7 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
 
     @time_and_log
     def add_import_export_panel(self):
-        """Add an image processing panel to the GUI if it does not already exist.
-
-        If the image processing panel does not exist, it creates a new ImageProcessPanelWidget and adds it to the tab widget.
-        If the image processing panel already exists, it sets the current widget to the existing panel.
-
-        Args:
-            self (object): The current instance of the class.
-        """
-        if self.gui.importExportPanel is None:
-            self.gui.importExportPanel = ImportExportPanelWidget(
-                self.gui, self.state
-            )
-        if self.gui.tabWidget.indexOf(self.gui.importExportPanel) == -1:
-            indx = self.gui.tabWidget.indexOf(self.gui.newTaskTab)
-            self.gui.tabWidget.insertTab(
-                indx, self.gui.importExportPanel, 'Import/Save/Export'
-            )
-            self.gui.tabWidget.setCurrentWidget(self.gui.importExportPanel)
+        self.gui.tabWidget.setCurrentWidget(self.gui.importExportTab)
 
     @time_and_log
     def unload_selected(self):
@@ -202,21 +181,21 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         col_num = 0
         if row_num in self.selected:
             self.imageTableWidget.setItem(
-                row_num, col_num, QTableWidgetItem(self.selected_icon, '')
+                row_num, col_num, QTableWidgetItem('\u25a3')
             )
         else:
             self.imageTableWidget.setItem(
-                row_num, col_num, QTableWidgetItem('')
+                row_num, col_num, QTableWidgetItem('\u25a1')
             )
         col_num += 1
         if img_num < len(self.state.image_filename):
             self.imageTableWidget.setItem(
-                row_num, col_num, QTableWidgetItem(self.selected_icon, '')
+                row_num, col_num, QTableWidgetItem('\u25a3')
             )
         else:
             print('ERROR: Can only redraw rows for images that are loaded.')
             self.imageTableWidget.setItem(
-                row_num, col_num, QTableWidgetItem('')
+                row_num, col_num, QTableWidgetItem('\u25a1')
             )
         col_num += 1
         self.imageTableWidget.setItem(
@@ -262,15 +241,15 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
         col_num = 0
         if row_num in self.selected:
             self.imageTableWidget.setItem(
-                row_num, col_num, QTableWidgetItem(self.selected_icon, '')
+                row_num, col_num, QTableWidgetItem('\u25a3')
             )
         else:
             self.imageTableWidget.setItem(
-                row_num, col_num, QTableWidgetItem('')
+                row_num, col_num, QTableWidgetItem('\u25a1')
             )
         col_num += 1
         self.imageTableWidget.setItem(
-            row_num, col_num, QTableWidgetItem(self.selected_icon, '')
+            row_num, col_num, QTableWidgetItem('\u25a3')
         )
         col_num += 1
         self.imageTableWidget.setItem(
@@ -350,11 +329,11 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                     self.imageTableWidget.setItem(
                         row_num,
                         col_num,
-                        QTableWidgetItem(self.selected_icon, ''),
+                        QTableWidgetItem('\u25a3'),
                     )
                 else:
                     self.imageTableWidget.setItem(
-                        row_num, col_num, QTableWidgetItem('')
+                        row_num, col_num, QTableWidgetItem('\u25a1')
                     )
                 col_num += 1
                 loaded_text = ' '
@@ -402,11 +381,11 @@ class ImageTablePanelWidget(QWidget, Ui_ImageTablePanelWidget):
                     self.imageTableWidget.setItem(
                         row_num,
                         col_num,
-                        QTableWidgetItem(self.selected_icon, ''),
+                        QTableWidgetItem('\u25a3'),
                     )
                 else:
                     self.imageTableWidget.setItem(
-                        row_num, col_num, QTableWidgetItem('')
+                        row_num, col_num, QTableWidgetItem('\u25a1')
                     )
                 col_num += 1
                 loaded_text = ' '
