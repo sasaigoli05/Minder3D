@@ -29,6 +29,7 @@ class NewTaskPanelWidget(QWidget, Ui_NewTaskPanelWidget):
         self.newTaskImageProcessButton.clicked.connect(
             self.add_image_process_panel
         )
+        self.newTaskBrainSegmentationButton.clicked.connect(self.add_brain_segmentation_panel)
 
     @time_and_log
     def add_lung_cta_panel(self):
