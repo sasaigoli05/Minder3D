@@ -109,6 +109,7 @@ class Minder3DWindow(QMainWindow, Ui_MainWindow):
         self.lungCTAPanel = None
         self.otsuPanel = None
         self.imageProcessPanel = None
+        self.BrainSegmentationPanel = None
 
         # Remove Close buttons from welcome, visualization, and pre-process
         # and task tabs
